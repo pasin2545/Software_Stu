@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div id="maincontainer"></div>
+    <script>
+        //Head
+        const maincon = document.getElementById("maincontainer");
+        var Exer_four = document.createElement("h2");
+        //button
+        var button = document.createElement("button");
+        var worker;
+        //Personal Info
+        var per_info = document.createElement("a");
+        var para_per_info = document.createElement("p");
+        var sup_per_info = document.createElement("ul");
+        var per_name = document.createElement("li");
+        var per_sub = document.createElement("li");
+        var per_semes = document.createElement("li");
+        var names = document.createTextNode("Pasin Keawnil, ID: 63010656");
+        var sub = document.createTextNode("Subject: Software Studio");
+        var semes = document.createTextNode("Semester: 1");
+        para_per_info.hidden = true;
+        //snapshots
+        var w_snap = document.createElement("h1");
+        //Picture
+        var li_pic = document.createElement("ul");
+        var li_pic_fire = document.createElement("li");
+        var li_pic_crest = document.createElement("li");
+        var li_pic_action = document.createElement("li");
+        var li_pic_buff = document.createElement("li");
+        var pic_fire = document.createElement("a");
+        var pic_crest = document.createElement("a");
+        var pic_action = document.createElement("a");
+        var pic_buff = document.createElement("a");
+        var img = document.createElement("img");
+        var n_line = document.createElement("br");
+        var dou_line = document.createElement("br");
+        var tri_line = document.createElement("br");
+        //worker date
+        var date = document.createElement("date");
+        //worker color
+        var bg_color = ["red", "#00591A", "blue", "pink", "green", "aqua"];
+        var font_color = ["white", "#FF68EF", "white", "#55D157", "red", "red"];
+
+        //Add Elements
+        function append_Element() {
+            //Header
+            Exer_four.innerHTML = "Exercise 04: JavaScript&DOM"
+            //button And worker
+            button.innerHTML = "Click me to display Date and Time"
+            button.onclick = () =>{
+                button.style.color = "white";
+                button.style.backgroundColor = "red";
+                worker_Start();
+            };
+
+            //Get startfunc
+            const worker_Start = () => {
+                button.style.position = "fixed";
+                button.style.border = "solid black";
+                button.style.right = "0";
+                button.style.top = "0";
+
+                worker = new Worker("worker.js");
+                worker.postMessage("start");
+
+                button.onclick = () => {
+                    worker_Stop();
+                    button.onclick = () => {
+                        worker_Start();
+                    };
+                };
+                
+                //color
+                var currentColor = 0;
+
+                const changeColor = () => {
+                    currentColor += 1;
+                    currentColor > 5 ? (currentColor = 0) : currentColor;
+                    // change color
+                    button.style.color = font_color[currentColor];
+                    button.style.backgroundColor = bg_color[currentColor];
+                };
+
+                // call change color
+                intervalID = setInterval(changeColor, 1000);
+
+                // call html listen
+                worker.addEventListener("message", function (e) {
+                    button.innerText = e.data;
+                });
+            };
+
+            const worker_Stop = () => {
+                worker.postMessage("stop"); // stop time
+                clearInterval(intervalID); // clear color
+                button.style.position  = "";// set position
+                worker.terminate();
+            };
+
+            //Personal Setting
+            per_info.innerHTML = "Personal Info"
+            per_info.href = "#";
+            per_info.style.color = "pink";
+            per_info.onmouseover = () => {
+                per_info.style.color = "blue";
+                per_info.style.background = "yellow";
+            };
+            per_info.onmouseout = () => {
+                per_info.style.color = "pink";
+                per_info.style.background = "transparent"
+            };
+            //Personal Pop up
+            const Clicktoexpand = (e) => {
+            e.hidden = !e.hidden;
+            }
+            per_info.onclick = () => Clicktoexpand(para_per_info);
+            //Snapshot
+            w_snap.innerHTML = "Snapshots";
+
+            //Pic
+            img.src = "https://scontent.fbkk5-5.fna.fbcdn.net/v/t39.30808-6/297283850_5367962686597930_4237137743468903702_n.png?_nc_cat=100&ccb=1-7&_nc_sid=52f669&_nc_eui2=AeFyY917zoqTPOSLqO7Ex3-UTr2Cz0bn89ROvYLPRufz1JpOTjBfjrmtpxlWA8MMpu1FBBew5kukMMxQEXCnOSSt&_nc_ohc=q1MDVELe7skAX-4F3ng&_nc_ht=scontent.fbkk5-5.fna&oh=00_AfCKTzkj3K8q7KtpIAt2yT7njv3D73TXAgs5kGJ-Twht3A&oe=650B539E"
+            img.height = 280;
+            img.width = 710;
+
+            pic_fire.innerText = "Fireworks";
+            pic_fire.href = "#";
+            pic_fire.onclick = () => {
+                img.src = "https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2021/06/0/0/Fireworks-iStock.jpg?ve=1&tl=1"
+                img.height = 300;
+                img.width = 500;
+            };
+
+            pic_crest.innerText = "Crest";
+            pic_crest.href = "#";
+            pic_crest.onclick = () => {
+                img.src = "https://i0.wp.com/picchianiebarlacchi.com/wp-content/uploads/2018/04/PeB-prodotti_eccel_m_crest-884x840.jpg?resize=884%2C840&ssl=1"
+                img.height = 300;
+                img.width = 300;
+            };
+
+            pic_action.innerText = "Action";
+            pic_action.href = "#";
+            pic_action.onclick = () => {
+                img.src = "https://www.koimoi.com/wp-content/new-galleries/2023/02/pathaan-becomes-the-all-time-highest-grossing-hindi-film-worldwide-in-just-10-days-001.jpg"
+                img.height = 300;
+                img.width = 500;
+            };
+
+            pic_buff.innerText = "Buffalo";
+            pic_buff.href = "#";
+            pic_buff.onclick = () => {
+                img.src = "https://www.thaipbsworld.com/wp-content/uploads/2023/01/C16E70DD-E22D-4506-9E33-58F65CED1804.png"
+                img.height = 300;
+                img.width = 500;
+            };
+
+            //appendChild
+            //Header
+            maincon.appendChild(Exer_four);
+            //button
+            maincon.appendChild(button);
+            maincon.appendChild(n_line);
+            maincon.appendChild(dou_line);
+            maincon.appendChild(tri_line);
+            //personal
+            maincon.appendChild(per_info);
+            per_name.appendChild(names);
+            per_sub.appendChild(sub);
+            per_semes.appendChild(semes);
+            sup_per_info.appendChild(per_name);
+            sup_per_info.appendChild(per_sub);
+            sup_per_info.appendChild(per_semes);
+            para_per_info.appendChild(sup_per_info);
+            maincon.appendChild(para_per_info);
+            //Snapshot
+            maincon.appendChild(w_snap);
+            //Picture
+            li_pic_fire.appendChild(pic_fire);
+            li_pic.appendChild(li_pic_fire);
+            maincon.appendChild(li_pic);
+            li_pic_crest.appendChild(pic_crest);
+            li_pic.appendChild(li_pic_crest);
+            maincon.appendChild(li_pic);
+            li_pic_action.appendChild(pic_action);
+            li_pic.appendChild(li_pic_action);
+            maincon.appendChild(li_pic);
+            li_pic_buff.appendChild(pic_buff);
+            li_pic.appendChild(li_pic_buff);
+            maincon.appendChild(li_pic);
+            maincon.appendChild(img);
+        }
+        document.body.onload = append_Element
+    </script>
+</body>
+
+</html>
